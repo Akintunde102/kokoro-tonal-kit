@@ -1,0 +1,15 @@
+# Recommended Stage 2 Settings for Tonal & Low-Resource Kokoro-82M Adaptation
+# Merge these values into your StyleTTS2 Stage 2 config YAML.
+
+model_params:
+  n_token: 178  # Keep fixed Kokoro embedding size (pack tones into the 63 vacant slots!)
+
+loss_params:
+  lambda_F0: 4.5    # Strong pitch supervision so High/Mid/Low tones lock in cleanly
+  lambda_sty: 1.5   # Never leave at 0.0 — needed so diffusion style reconstruction trains
+  lambda_diff: 1.0  # Never leave at 0.0 — needed so prosody diffusion trains
+
+optimizer_params:
+  lr: 0.00008       # 8e-5 general Stage 2 polish
+  bert_lr: 0.00004  # 4e-5 to 5e-5 — crucial so PLBERT adapts from English stress to your language!
+  ft_lr: 0.00003    # 3e-5 decoder fine-tuning
